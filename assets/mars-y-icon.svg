@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 360" role="img" aria-label="mars-y">
+  <defs>
+    <radialGradient id="orb" cx="44%" cy="35%" r="66%">
+      <stop offset="0" stop-color="#3a1018"/>
+      <stop offset="0.48" stop-color="#10131d"/>
+      <stop offset="1" stop-color="#060810"/>
+    </radialGradient>
+    <radialGradient id="glow" cx="62%" cy="73%" r="48%">
+      <stop stop-color="#ff6a00" stop-opacity="0.8"/>
+      <stop offset="1" stop-color="#ff6a00" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="fire" x1="150" y1="45" x2="222" y2="286" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff16a"/>
+      <stop offset="0.28" stop-color="#ffb000"/>
+      <stop offset="0.62" stop-color="#ff5a00"/>
+      <stop offset="1" stop-color="#f22b05"/>
+    </linearGradient>
+    <linearGradient id="cape" x1="98" y1="170" x2="260" y2="255" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#44485a"/>
+      <stop offset="0.46" stop-color="#171b29"/>
+      <stop offset="1" stop-color="#070912"/>
+    </linearGradient>
+  </defs>
+  <circle cx="180" cy="180" r="139" fill="url(#orb)"/>
+  <circle cx="210" cy="235" r="120" fill="url(#glow)"/>
+  <path fill="url(#fire)" d="M181 292c-56-24-88-60-92-111-3-37 18-70 47-95-2 31 8 50 27 64-14-50 23-63 36-112 35 26 48 61 39 101 16-18 24-42 20-70 35 37 46 78 30 118 13-4 25-15 35-34 4 44-17 79-55 103-24 16-47 26-87 36Z"/>
+  <path fill="#fff4a0" d="M150 145c-20-35-4-60 46-101 1 42-39 63-46 101Z"/>
+  <path fill="url(#cape)" d="M94 207c45-8 89-32 135-27 36 4 64 23 90 58-48-24-95-23-141-11-32 8-60 3-84-20Z"/>
+  <path fill="#070912" d="m101 178 59 25-20 28c-26-7-39-24-39-53Zm157 0-59 25 20 28c26-7 39-24 39-53Z"/>
+  <path fill="#fffdf3" d="m119 187 34 14-13 17c-13-3-20-13-21-31Zm121 0-34 14 13 17c13-3 20-13 21-31Z"/>
+  <path fill="#ff9d00" d="M73 183c-4-31 17-50 39-69-4 23 4 35 18 46-11 21-28 31-57 23Z"/>
+  <circle cx="86" cy="177" r="20" fill="#fff3a4"/>
+</svg>

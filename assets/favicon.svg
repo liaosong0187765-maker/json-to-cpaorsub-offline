@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" role="img" aria-label="mars-y favicon">
+  <defs>
+    <linearGradient id="bg" x1="24" y1="18" x2="232" y2="238" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#171a22"/>
+      <stop offset="1" stop-color="#070911"/>
+    </linearGradient>
+    <linearGradient id="flame" x1="86" y1="36" x2="178" y2="220" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffd83d"/>
+      <stop offset="0.38" stop-color="#ff8a00"/>
+      <stop offset="1" stop-color="#f23808"/>
+    </linearGradient>
+    <linearGradient id="inner" x1="76" y1="40" x2="132" y2="132" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#fff7a2"/>
+      <stop offset="1" stop-color="#ffb000"/>
+    </linearGradient>
+  </defs>
+  <rect width="256" height="256" rx="52" fill="url(#bg)"/>
+  <path fill="url(#flame)" d="M127 224c-51-22-78-55-80-97-1-28 14-56 33-73-5 22 4 39 22 51-8-37 13-57 42-80-2 29 16 47 18 74 12-18 16-34 13-56 28 26 39 56 31 89 12-8 21-21 25-38 12 33 2 68-27 94-21 18-43 28-77 36Z"/>
+  <path fill="url(#inner)" d="M104 132c-24-30-14-60 34-96 0 41-44 55-34 96Z"/>
+  <path fill="#11151d" d="m70 144 46 28-18 18c-19-6-28-20-28-46Zm116 0-46 28 18 18c19-6 28-20 28-46Z"/>
+  <path fill="#fffdf3" d="m82 149 27 16-13 13c-10-3-15-13-14-29Zm92 0-27 16 13 13c10-3 15-13 14-29Z"/>
+</svg>
