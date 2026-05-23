@@ -9,6 +9,7 @@
 # Local token/account data. Keep only sanitized examples under examples/.
 卡密*
 cpa_*
+!cpa_to_card_sub.py
 sub_*
 chatgpt_*
 account*.json
@@ -17,4 +18,4 @@ account*.jsonl
 *.private.*
 .env
 .env.*
-
+_publish_*/
