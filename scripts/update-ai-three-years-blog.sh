@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-POST_FILE="blog/posts/2026-06-03-ai-three-years-nine-lessons/index.html"
-DEFAULT_MESSAGE="update AI three years blog post"
+DEFAULT_MESSAGE="update site content"
 COMMIT_MESSAGE="${*:-$DEFAULT_MESSAGE}"
 
 cd "$(dirname "$0")/.."
@@ -12,13 +11,8 @@ if ! git rev-parse --is-inside-work-tree >/dev/null 2>&1; then
   exit 1
 fi
 
-if [[ ! -f "$POST_FILE" ]]; then
-  echo "Error: target blog file not found: $POST_FILE"
-  exit 1
-fi
-
-if git diff --quiet -- "$POST_FILE" && git diff --cached --quiet -- "$POST_FILE"; then
-  echo "No changes to commit for $POST_FILE"
+if [[ -z "$(git status --porcelain)" ]]; then
+  echo "No changes to commit."
   exit 0
 fi
 
@@ -28,14 +22,22 @@ if [[ -z "$CURRENT_BRANCH" ]]; then
   exit 1
 fi
 
-echo "Checking whitespace errors..."
-git diff --check -- "$POST_FILE"
+echo "Staging all changes..."
+git add -A
 
-echo "Staging $POST_FILE..."
-git add "$POST_FILE"
+echo "Checking staged whitespace errors..."
+git diff --cached --check
+
+if git diff --cached --quiet; then
+  echo "No staged changes to commit."
+  exit 0
+fi
+
+echo "Staged changes:"
+git status --short
 
 echo "Committing: $COMMIT_MESSAGE"
-git commit -m "$COMMIT_MESSAGE" -- "$POST_FILE"
+git commit -m "$COMMIT_MESSAGE"
 
 echo "Pushing to origin/$CURRENT_BRANCH..."
 git push origin "$CURRENT_BRANCH"
