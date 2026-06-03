@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>mars-y - 工具与博客</title>
-  <meta name="description" content="mars-y 静态站点入口，包含本地转换工具和每日博客。">
-  <link rel="icon" type="image/x-icon" href="assets/favicon.ico">
+  <title>Mars-y - 工具与博客</title>
+  <meta name="description" content="Mars-y 静态站点入口，包含本地转换工具和每日博客。">
+  <link rel="icon" type="image/x-icon" href="assets/mars-y-icon-cropped-hd.ico">
   <style>
     :root {
       --bg: #f4f1eb;
@@ -26,6 +26,7 @@
     .nav { min-height: 72px; display: flex; align-items: center; gap: 18px; }
     .brand { display: inline-flex; align-items: center; gap: 10px; font-weight: 850; }
     .brand img { width: 32px; height: 32px; border-radius: 8px; }
+    .brand-y { color: #000; }
     .links { margin-left: auto; display: flex; gap: 8px; flex-wrap: wrap; }
     .links a, .button { min-height: 38px; display: inline-flex; align-items: center; justify-content: center; padding: 0 14px; border-radius: 999px; font-weight: 750; }
     .links a { color: var(--muted); }
@@ -51,9 +52,9 @@
 <body>
   <div class="shell">
     <header class="nav">
-      <a class="brand" href="index.html" aria-label="mars-y">
-        <img src="assets/favicon.ico" alt="mars-y logo">
-        <span>mars-y</span>
+      <a class="brand" href="index.html" aria-label="Mars-y">
+        <img src="assets/mars-y-icon-cropped-hd.ico" alt="Mars-y logo">
+        <span>Mars-<span class="brand-y">y</span></span>
       </a>
       <nav class="links" aria-label="主导航">
         <a href="tools/json-to-cpaorsub-offline/">转换工具</a>
@@ -83,7 +84,7 @@
       </section>
     </main>
 
-    <footer class="footer">mars-y static site on Cloudflare Pages</footer>
+    <footer class="footer">Mars-y static site on Cloudflare Pages</footer>
   </div>
 </body>
 </html>

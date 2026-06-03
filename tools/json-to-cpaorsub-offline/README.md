@@ -46,7 +46,8 @@ minimal/
 ├─ index.html
 └─ assets/
    ├─ favicon.ico
-   └─ mars-y-icon.ico
+   ├─ mars-y-icon.ico
+   └─ mars-y-icon-cropped-hd.ico
 ```
 
 ## 安全提醒
