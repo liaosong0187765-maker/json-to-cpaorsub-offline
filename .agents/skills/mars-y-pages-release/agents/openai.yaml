@@ -1,0 +1,7 @@
+interface:
+  display_name: "Mars-y Pages Release"
+  short_description: "发布和维护 mars-y.com 静态站点"
+  default_prompt: "Use $mars-y-pages-release to update and publish the mars-y.com static site."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Mars-y Blog - AI 内容工作流与静态网页发布</title>
+  <meta name="description" content="Mars-y Blog 记录每日优质内容抓取、Markdown 转 HTML、静态页面发布和本地 AI 工作流。">
+  <link rel="icon" type="image/x-icon" href="../assets/favicon.ico">
+  <link rel="stylesheet" href="assets/blog.css">
+</head>
+<body>
+  <div class="site-shell">
+    <header class="topbar">
+      <div class="topbar-inner">
+        <a class="brand" href="../index.html" aria-label="Mars-y">
+          <img src="../assets/favicon.ico" alt="Mars-y logo">
+          <span>Mars-<span class="brand-accent">y</span></span>
+          <small>Blog</small>
+        </a>
+        <nav class="nav-links" aria-label="主导航">
+          <a href="../tools/json-to-cpaorsub-offline/">工具</a>
+          <a class="active" href="index.html">博客</a>
+          <a href="posts/2026-06-03-ai-three-years-nine-lessons/">第一篇</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="blog-hero">
+        <div class="eyebrow">Mars-y Daily Notes</div>
+        <h1 class="hero-title">每天抓取优质内容，整理成自己的 HTML 博客</h1>
+        <p class="hero-copy">这里是 `mars-y.com/blog/` 的静态博客入口。后续每天可以把 RSS、网页、论文、工具更新和自己的笔记整理成 Markdown，再转成独立 HTML 页面发布。</p>
+      </section>
+
+      <a class="featured-card" href="posts/2026-06-03-ai-three-years-nine-lessons/">
+        <div class="visual" aria-hidden="true">
+          <div class="visual-grid"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+        </div>
+        <div class="featured-body">
+          <div class="meta-line"><span>2026-06-03</span><span class="tag">ai-native</span><span class="tag">ofox-clay</span><span class="tag">wechat-note</span></div>
+          <h2>用 AI 的这三年，9 条心得视觉笔记</h2>
+          <p>基于公众号文章整理的第一篇 Mars-y Blog 内容笔记，用 HTML Anything 的 Ofox Clay 文章模板做成可阅读、可编辑、可发布的静态 HTML。</p>
+        </div>
+      </a>
+
+      <section class="post-grid" aria-label="博客文章列表">
+        <a class="post-card" href="posts/2026-06-03-ai-three-years-nine-lessons/">
+          <div class="visual" aria-hidden="true"></div>
+          <div class="post-card-body">
+            <div class="meta-line"><span>2026-06-03</span><span class="tag">ai-native</span></div>
+            <h2>用 AI 的这三年，9 条心得视觉笔记</h2>
+            <p>从顶级模型、重复任务自动化、实习生思维、创造习惯到真实生活，把一篇长文整理成可发布的 HTML 笔记。</p>
+          </div>
+        </a>
+        <a class="post-card" href="posts/2026-06-03-daily-ai-content-workflow/">
+          <div class="visual" aria-hidden="true"></div>
+          <div class="post-card-body">
+            <div class="meta-line"><span>2026-06-03</span><span class="tag">publishing</span></div>
+            <h2>每日内容发布流程模板</h2>
+            <p>用固定目录和静态模板，把每天收集的内容稳定发布到 `mars-y.com/blog/`。</p>
+          </div>
+        </a>
+        <article class="post-card">
+          <div class="visual" aria-hidden="true"></div>
+          <div class="post-card-body">
+            <div class="meta-line"><span>Coming soon</span><span class="tag">curation</span></div>
+            <h2>优质内容筛选规则</h2>
+            <p>下一步可以沉淀来源白名单、评分规则、摘要格式和引用规范，避免博客变成原文搬运。</p>
+          </div>
+        </article>
+      </section>
+
+      <section class="cta-band">
+        <h2>后续每日更新方式</h2>
+        <p>把 Markdown 或 catchit 产物放到 `blog/content/` 或 `blog/posts/yyyy-mm-dd-title/`，优先使用 HTML Anything 的 `article-ofox-clay-editorial` 模板生成 HTML；更新 `blog/index.html` 后提交并推送到 GitHub，Cloudflare Pages 会发布到线上。</p>
+        <a class="button" href="../tools/json-to-cpaorsub-offline/">返回 mars-y 工具</a>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        <span>mars-y blog</span>
+        <span>Static HTML on Cloudflare Pages</span>
+      </div>
+    </footer>
+  </div>
+</body>
+</html>

@@ -19,3 +19,5 @@ account*.jsonl
 .env
 .env.*
 _publish_*/
+.deploy-*/
+.wrangler/

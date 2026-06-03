@@ -1,0 +1,1214 @@
+<!doctype html>
+<html lang="zh-CN"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <title>用 AI 的这三年，9 条心得笔记 - Mars-y Blog</title>
+  <meta name="description" content="Mars-y Blog 第一篇内容笔记：基于公众号文章整理的 AI 使用三年复盘与 9 条心得。">
+  <link rel="icon" type="image/x-icon" href="../../../assets/favicon.ico">
+  <style>
+    :root {
+      --paper: #f7f3ea;
+      --paper-2: #ebe3d4;
+      --ink: #171b1f;
+      --muted: #62615b;
+      --hair: #d4c9b8;
+      --accent: #c15f3c;
+      --accent-2: #f1b84f;
+      --red: #c94d4b;
+      --white: #fffaf0;
+      --shadow: 0 24px 80px rgba(41, 36, 28, .11);
+      --radius: 18px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      background:
+        linear-gradient(90deg, rgba(193,95,60,.045) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(193,95,60,.045) 1px, transparent 1px),
+        var(--paper);
+      background-size: 32px 32px;
+      font-family: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+      line-height: 1.72;
+    }
+
+    a { color: inherit; }
+
+    .editor-toolbar {
+      position: static;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+      width: 100%;
+      margin-top: 14px;
+      padding: 14px;
+      border: 1px solid rgba(23, 27, 31, .14);
+      border-radius: 14px;
+      background: var(--white);
+    }
+
+    .editor-toolbar button {
+      width: 100%;
+      min-height: 38px;
+      padding: 8px 13px;
+      border: 1px solid var(--hair);
+      border-radius: 999px;
+      background: var(--white);
+      color: var(--ink);
+      font: inherit;
+      font-size: 14px;
+      font-weight: 800;
+      cursor: pointer;
+    }
+
+    body:not(.editor-on) .editor-toolbar button:not(#editToggle),
+    body:not(.editor-on) .editor-toolbar .editor-hint,
+    body:not(.editor-on) .editor-toolbar .editor-status {
+      display: none;
+    }
+
+    #editToggle {
+      border-color: var(--ink);
+      background: var(--ink);
+      color: var(--white);
+    }
+
+    .editor-toolbar button:hover,
+    .editor-toolbar button.is-active {
+      border-color: var(--accent);
+      background: var(--accent);
+      color: #fff;
+    }
+
+    .editor-hint {
+      width: 100%;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    .editor-status {
+      min-width: 180px;
+      color: var(--accent);
+      font-size: 12px;
+      font-weight: 800;
+      line-height: 1.45;
+      text-align: center;
+    }
+
+    [contenteditable="true"] {
+      outline: 2px dashed rgba(193, 95, 60, .34);
+      outline-offset: 4px;
+      border-radius: 6px;
+    }
+
+    body.editor-on img {
+      cursor: pointer;
+    }
+
+    body.editor-on img.is-selected {
+      outline: 4px solid var(--accent-2);
+      outline-offset: 4px;
+    }
+
+    body.editor-on .drag-ready {
+      position: relative;
+    }
+
+    .drag-handle {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      z-index: 3;
+      padding: 4px 8px;
+      border: 1px solid var(--hair);
+      border-radius: 999px;
+      background: var(--white);
+      color: var(--accent);
+      font: inherit;
+      font-size: 12px;
+      font-weight: 800;
+      cursor: grab;
+      user-select: none;
+    }
+
+    .drag-handle:active {
+      cursor: grabbing;
+    }
+
+    body.editor-on .dragging {
+      opacity: .42;
+    }
+
+    body.editor-on .drop-before {
+      box-shadow: 0 -5px 0 var(--accent-2);
+    }
+
+    body.editor-on .drop-after {
+      box-shadow: 0 5px 0 var(--accent-2);
+    }
+
+    .site-nav {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      border-bottom: 1px solid rgba(212, 201, 184, .78);
+      background: rgba(247, 243, 234, .92);
+      backdrop-filter: blur(16px);
+    }
+
+    .site-nav-inner {
+      width: min(1180px, calc(100% - 32px));
+      min-height: 70px;
+      margin: 0 auto;
+      display: flex;
+      align-items: center;
+      gap: 26px;
+    }
+
+    .site-brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--ink);
+      font-weight: 900;
+      text-decoration: none;
+      letter-spacing: 0;
+    }
+
+    .site-brand img {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      border: 1px solid var(--hair);
+      background: var(--white);
+    }
+
+    .site-brand span {
+      font-size: 18px;
+    }
+
+    .brand-accent {
+      color: var(--accent);
+    }
+
+    .site-links {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-left: auto;
+    }
+
+    .site-links a {
+      min-height: 38px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 13px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 14px;
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .site-links a:hover,
+    .site-links a.active {
+      color: var(--accent);
+      background: rgba(193, 95, 60, .1);
+    }
+
+    .page {
+      width: min(1280px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 24px 0 56px;
+    }
+
+    .masthead {
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+      align-items: center;
+      padding: 18px 0;
+      border-bottom: 1px solid var(--hair);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .brand {
+      color: var(--ink);
+      font-weight: 800;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, .9fr) minmax(380px, 1.1fr);
+      gap: 52px;
+      align-items: center;
+      padding: 56px 0 44px;
+      border-bottom: 1px solid var(--hair);
+    }
+
+    .kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--accent);
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .kicker::before {
+      content: "";
+      width: 34px;
+      height: 2px;
+      background: var(--accent);
+    }
+
+    h1 {
+      margin: 18px 0 20px;
+      max-width: 820px;
+      font-family: Georgia, "Noto Serif SC", "Songti SC", serif;
+      font-size: clamp(42px, 7vw, 88px);
+      line-height: 1.02;
+      letter-spacing: 0;
+    }
+
+    h1 .line {
+      display: block;
+    }
+
+    .lead {
+      max-width: 660px;
+      margin: 0;
+      color: #343737;
+      font-size: clamp(18px, 2vw, 22px);
+      line-height: 1.65;
+    }
+
+    .meta-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 28px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 36px;
+      padding: 7px 12px;
+      border: 1px solid var(--hair);
+      border-radius: 999px;
+      background: rgba(255,250,240,.64);
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .hero-card {
+      padding: 12px;
+      border: 1px solid var(--hair);
+      border-radius: var(--radius);
+      background: var(--white);
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card img,
+    .figure img {
+      display: block;
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
+      border: 1px solid var(--hair);
+      background: #fff;
+    }
+
+    .caption {
+      margin: 12px 2px 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .section {
+      padding: 54px 0;
+      border-bottom: 1px solid var(--hair);
+    }
+
+    .section h2 {
+      margin: 0 0 22px;
+      font-family: Georgia, "Noto Serif SC", "Songti SC", serif;
+      font-size: clamp(28px, 4vw, 48px);
+      line-height: 1.12;
+    }
+
+    .two-col {
+      display: grid;
+      grid-template-columns: minmax(0, .82fr) minmax(280px, 1.18fr);
+      gap: 34px;
+      align-items: start;
+    }
+
+    .note {
+      padding: 22px;
+      border: 1px solid var(--hair);
+      border-radius: var(--radius);
+      background: #f0eadf;
+    }
+
+    .note strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 18px;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 12px;
+    }
+
+    .toc-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+      counter-reset: toc;
+    }
+
+    .toc-grid a {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 14px;
+      align-items: center;
+      min-height: 72px;
+      padding: 16px;
+      border: 1px solid var(--hair);
+      border-radius: var(--radius);
+      background: var(--white);
+      color: var(--ink);
+      font-weight: 800;
+      text-decoration: none;
+    }
+
+    .toc-grid a::before {
+      counter-increment: toc;
+      content: counter(toc, decimal-leading-zero);
+      color: var(--accent);
+      font-family: Georgia, serif;
+      font-size: 18px;
+    }
+
+    .side-toc {
+      position: relative;
+      z-index: 10;
+      display: block;
+      width: min(420px, calc(100% - 24px));
+      max-height: none;
+      overflow: auto;
+      margin: 14px auto 0;
+      padding: 18px;
+      border: 1px solid var(--hair);
+      border-radius: 22px;
+      background: rgba(255,250,240,.9);
+      box-shadow: 0 18px 60px rgba(41,36,28,.09);
+      backdrop-filter: blur(14px);
+    }
+
+    .side-toc strong {
+      display: block;
+      margin-bottom: 12px;
+      color: var(--accent);
+      font-size: 13px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .side-toc .toc-grid {
+      grid-template-columns: 1fr;
+      gap: 8px;
+    }
+
+    .side-toc .toc-grid a {
+      min-height: auto;
+      grid-template-columns: 32px 1fr;
+      padding: 10px;
+      border-radius: 14px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .stat {
+      min-height: 118px;
+      padding: 18px;
+      border: 1px solid var(--hair);
+      border-radius: var(--radius);
+      background: var(--white);
+    }
+
+    .stat b {
+      display: block;
+      color: var(--accent);
+      font-family: Georgia, "Noto Serif SC", serif;
+      font-size: 38px;
+      line-height: 1;
+    }
+
+    .stat span {
+      display: block;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .insights {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+      counter-reset: insight;
+    }
+
+    .insight {
+      position: relative;
+      min-height: 250px;
+      padding: 22px;
+      border: 1px solid var(--hair);
+      border-radius: var(--radius);
+      background: var(--white);
+    }
+
+    .insight::before {
+      counter-increment: insight;
+      content: counter(insight, decimal-leading-zero);
+      display: inline-flex;
+      margin-bottom: 24px;
+      color: var(--accent);
+      font-family: Georgia, serif;
+      font-size: 15px;
+      font-weight: 700;
+      letter-spacing: .08em;
+    }
+
+    .insight h3 {
+      margin: 0 0 12px;
+      font-size: 22px;
+      line-height: 1.25;
+    }
+
+    .insight p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.75;
+    }
+
+    .action-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .two-col .method-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .method-card {
+      padding: 22px;
+      border: 1px solid var(--hair);
+      border-radius: var(--radius);
+      background: var(--white);
+    }
+
+    .method-card h3 {
+      margin: 0 0 10px;
+      font-size: 20px;
+      line-height: 1.35;
+    }
+
+    .method-card p,
+    .method-card li {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.72;
+    }
+
+    .method-card ul {
+      padding-left: 20px;
+      margin: 10px 0 0;
+    }
+
+    .code-sample {
+      overflow: auto;
+      margin: 18px 0 0;
+      padding: 18px;
+      border-radius: var(--radius);
+      background: #1b1f23;
+      color: #fff8e7;
+      font: 14px/1.7 "JetBrains Mono", Consolas, monospace;
+      white-space: pre-wrap;
+    }
+
+    .action {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 16px;
+      padding: 22px;
+      border: 1px solid var(--hair);
+      border-radius: var(--radius);
+      background: #fff8ea;
+    }
+
+    .action b {
+      display: grid;
+      place-items: center;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--accent);
+      color: #fff;
+      font-family: Georgia, serif;
+      font-size: 18px;
+    }
+
+    .action h3 {
+      margin: 0 0 6px;
+      font-size: 18px;
+      line-height: 1.35;
+    }
+
+    .action p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 15px;
+    }
+
+    .pull {
+      margin: 0;
+      padding: 28px;
+      border-left: 8px solid var(--accent);
+      border-radius: 0 var(--radius) var(--radius) 0;
+      background: #eef0e5;
+      font-family: Georgia, "Noto Serif SC", "Songti SC", serif;
+      font-size: clamp(24px, 3vw, 38px);
+      line-height: 1.35;
+    }
+
+    .figure-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+      align-items: start;
+    }
+
+    .figure {
+      margin: 28px 0;
+      padding: 12px;
+      border: 1px solid var(--hair);
+      border-radius: var(--radius);
+      background: var(--white);
+      box-shadow: 0 18px 60px rgba(41,36,28,.08);
+    }
+
+    .source-card {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 18px;
+      align-items: center;
+      padding: 26px;
+      border: 1px solid var(--hair);
+      border-radius: var(--radius);
+      background: var(--ink);
+      color: #fffaf0;
+    }
+
+    .source-card p {
+      margin: 6px 0 0;
+      color: #d7d0c2;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 46px;
+      padding: 10px 16px;
+      border-radius: 999px;
+      background: var(--accent-2);
+      color: #16110a;
+      font-weight: 800;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+
+    footer {
+      padding: 24px 0 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    @media (min-width: 1180px) {
+      .side-toc {
+        position: fixed;
+        top: 94px;
+        left: 24px;
+        width: 248px;
+        max-height: calc(100dvh - 118px);
+        margin: 0;
+      }
+      .page {
+        width: min(1120px, calc(100% - 360px));
+        margin-left: 320px;
+        margin-right: 40px;
+      }
+    }
+
+    @media (max-width: 860px) {
+      .site-nav-inner { align-items: flex-start; flex-direction: column; gap: 10px; padding: 14px 0; }
+      .site-links { width: 100%; margin-left: 0; overflow-x: auto; padding-bottom: 4px; }
+      .editor-toolbar { width: 100%; }
+      .page { width: min(100% - 22px, 680px); padding-top: 18px; }
+      .masthead { align-items: flex-start; flex-direction: column; }
+      .hero,
+      .two-col,
+      .source-card { grid-template-columns: 1fr; }
+      .stats,
+      .insights,
+      .action-grid,
+      .method-grid,
+      .toc-grid,
+      .figure-grid { grid-template-columns: 1fr; }
+      .section { padding: 38px 0; }
+      .hero { padding: 38px 0 34px; gap: 28px; }
+      .source-card .button { width: 100%; }
+    }
+  </style>
+</head>
+<body class="">
+  <header class="site-nav">
+    <div class="site-nav-inner">
+      <a class="site-brand" href="../../../index.html" aria-label="Mars-y">
+        <img src="../../../assets/favicon.ico" alt="Mars-y logo">
+        <span>Mars-<span class="brand-accent">y</span></span>
+      </a>
+      <nav class="site-links" aria-label="主导航">
+        <a href="../../../index.html">首页</a>
+        <a class="active" href="../../index.html">博客</a>
+        <a href="../../../tools/json-to-cpaorsub-offline/">工具</a>
+        <a href="../../../README.md">README</a>
+      </nav>
+    </div>
+  </header>
+  <!-- Generated with Horizon WeChatArticleScraper, html-anything article-magazine/doc template direction, and design-taste-frontend preflight constraints. -->
+  <aside class="side-toc" aria-label="文章目录">
+    <strong>目录</strong>
+    <ol class="toc-grid">
+      <li><a href="#core">核心判断</a></li>
+      <li><a href="#narrative">万分之几的人在用</a></li>
+      <li><a href="#insights">9 条心得</a></li>
+      <li><a href="#actions">用起来ai</a></li>
+      <li><a href="#markdown-to-html">Markdown 转 HTML 方法</a></li>
+      <li><a href="#source">阅读原文</a></li>
+    </ol>
+    <div class="editor-toolbar" data-editor-ui="">
+      <button type="button" id="editToggle" class="">开启文字编辑</button>
+      <button type="button" id="insertImage">插入本地图片</button>
+      <button type="button" id="deleteImage">删除选中图片</button>
+      <button type="button" id="saveHtml">保存当前修改</button>
+      <button type="button" id="downloadHtml">下载当前 HTML</button>
+      <button type="button" id="clearSaved">清除浏览器保存</button>
+      <input id="imagePicker" type="file" accept="image/*" hidden="">
+      <div class="editor-hint">开启后可直接点击正文文字修改；点击图片可选中，再删除或在其后插入本地图片。保存当前修改会写入浏览器缓存，下载当前 HTML 可生成能覆盖本文件的新版本。</div>
+      <div class="editor-status" id="editorStatus">尚未保存本次修改</div>
+    </div>
+  </aside>
+  <main class="page">
+    <header class="masthead">
+      <div class="brand" spellcheck="false">AI Reading Note</div>
+      <div spellcheck="false">基于公众号文章整理&nbsp;</div>
+    </header>
+
+    <section class="hero">
+      <div>
+        <span class="kicker" spellcheck="false">Visual digest</span>
+        <h1 spellcheck="false"><span class="line">用 AI 的这三年</span><span class="line">9 条心得</span><span class="line">视觉笔记</span></h1>
+        <p class="lead" spellcheck="false">这篇文章是一个卡兹克在三年节点上的复盘。它提醒我们，AI 仍处在早期，真正的分水岭不只是会不会用工具，而是能不能用它改变行动方式、创造方式和生活方式。</p>
+        <div class="meta-row">
+          <span class="pill" spellcheck="false">原文作者：数字生命卡兹克</span>
+          <span class="pill" spellcheck="false">发布时间：2026-02-24</span>
+          <span class="pill" spellcheck="false">抓取工具：Horizon scraper</span>
+          <span class="pill" spellcheck="false">模板方向：HTML Anything Ofox Clay</span>
+        </div>
+      </div>
+      <figure class="hero-card">
+        <img src="images/ddab8c91266b50b1/image-01.png" alt="AI 使用人群分布图，展示大多数人还没有真正开始使用 AI">
+        <figcaption class="caption" spellcheck="false">原文用一张人群分布图说明：大众对 AI 的接触仍然非常早期，付费使用和编程 Agent 使用者只是极小比例。</figcaption>
+      </figure>
+    </section>
+
+    <section class="section two-col" id="core">
+      <div>
+        <h2 spellcheck="false">文章的核心判断</h2>
+        <div class="note">
+          <strong spellcheck="false">AI 不是已经结束的红利，而是刚刚开始的基础设施。</strong>
+          <span spellcheck="false">作者的主线很明确：从模型选择、任务自动化、表达方式、创造习惯、真实反馈到生活关系，AI 的价值不在于替代人，而在于迫使人重建工作习惯和判断力。</span>
+        </div>
+      </div>
+      <div class="stats">
+        <div class="stat"><b spellcheck="false">84%</b><span spellcheck="false">原文提到，全球仍有大量人从未真正和 AI 对话。</span></div>
+        <div class="stat"><b spellcheck="false">16%</b><span spellcheck="false">使用过免费聊天机器人的人群已经可见，但还不是深度使用。</span></div>
+        <div class="stat"><b spellcheck="false">0.3%</b><span spellcheck="false">愿意每月为 AI 付费的人群很少，付费模型体验仍是认知差。</span></div>
+        <div class="stat"><b spellcheck="false">0.04%</b><span spellcheck="false">真正接触编程 Agent 的人群更少，AI Native 的窗口期还在。</span></div>
+      </div>
+    </section>
+
+    <section class="section two-col" id="narrative">
+      <div>
+        <h2 spellcheck="false">这版排版和叙述怎么来的</h2>
+        <div class="note">
+          <strong spellcheck="false">排版学 ofox，叙述学卡兹克。</strong>
+          <span spellcheck="false">ofox 那篇企业 AI API 容量规划文章的好处，是工程感很强：先给结论，再拆模块，再给表格、代码和操作路径。卡兹克文章的好处，是不端着讲大道理，而是用亲身经历把一个判断讲明白。</span>
+        </div>
+      </div>
+      <div class="method-grid">
+        <article class="method-card">
+          <h3 spellcheck="false">ofox 的结构</h3>
+          <p spellcheck="false">顶部信息清楚，正文有 TL;DR、目录、分段标题和行动建议。读者可以先扫，再决定细读。</p>
+        </article>
+        <article class="method-card">
+          <h3 spellcheck="false">卡兹克的语气</h3>
+          <p spellcheck="false">像朋友聊天，先讲一个现实场景，再抛判断，最后给一个可执行的小动作。</p>
+        </article>
+        <article class="method-card">
+          <h3 spellcheck="false">这版的取舍</h3>
+          <p spellcheck="false">不复制全文，而是把原文变成可分享的视觉笔记。保留原文入口，降低阅读门槛。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section" id="insights">
+      <h2 spellcheck="false">9 条心得，压缩成可执行判断</h2>
+      <div class="insights">
+        <article class="insight">
+          <h3 spellcheck="false">先体验最好的模型</h3>
+          <p spellcheck="false">不要让普通模型决定你对 AI 的第一印象。预算允许时，先用顶级模型建立能力边界，再按自己的场景选择长期工具。</p>
+        </article>
+        <article class="insight">
+          <h3 spellcheck="false">每周自动化一件小事</h3>
+          <p spellcheck="false">从周报、数据整理、邮件模板、新闻汇总这类重复任务开始。目标不是一次做大系统，而是持续积累自动化肌肉。</p>
+        </article>
+        <article class="insight">
+          <h3 spellcheck="false">把 AI 当实习生管理</h3>
+          <p spellcheck="false">少给关键词，多给背景、限制、偏好和输出格式。AI 结果的质量，往往取决于你把模糊想法表达清楚的能力。</p>
+        </article>
+        <article class="insight">
+          <h3 spellcheck="false">建立 AI 触发器</h3>
+          <p spellcheck="false">做事前先停一下，问这件事 AI 能否帮忙，能帮到哪一步。这个刻意反应会逐渐变成新的工作本能。</p>
+        </article>
+        <article class="insight">
+          <h3 spellcheck="false">用 AI 去创造</h3>
+          <p spellcheck="false">不要只学习概念。做一个小工具、一段视频、一篇文章或一个原型，创造会倒逼你学习提示词、上下文和审美。</p>
+        </article>
+        <article class="insight">
+          <h3 spellcheck="false">警惕被鼓励包围</h3>
+          <p spellcheck="false">AI 很擅长给正反馈，但真实世界才是检验场。把作品拿给用户、读者、同事和市场，而不是只听模型称赞。</p>
+        </article>
+        <article class="insight">
+          <h3 spellcheck="false">别等准备好再开始</h3>
+          <p spellcheck="false">AI 变化太快，最优学习路径很容易过期。先用起来，在具体任务里补概念，比收藏教程更有效。</p>
+        </article>
+        <article class="insight">
+          <h3 spellcheck="false">培养品味和审美</h3>
+          <p spellcheck="false">模型能生成许多选项，但不能替你判断什么更好。看好作品、拆原因、自己做、再对比，是长期护城河。</p>
+        </article>
+        <article class="insight">
+          <h3 spellcheck="false">把省下来的时间还给人</h3>
+          <p spellcheck="false">效率不是终点。AI 帮你节省的时间，应该回到生活、关系和具体的人那里，而不是继续填满屏幕时间。</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="section two-col" id="taste">
+      <figure class="figure">
+        <img src="images/ddab8c91266b50b1/image-08.png" alt="TEDx Chongqing 演讲画面，主题为看做想">
+        <figcaption class="caption" spellcheck="false">原文在谈审美时提到一套很朴素的方法：看、做、想。这个循环比追热点更慢，但更能形成个人判断。</figcaption>
+      </figure>
+      <blockquote class="pull" spellcheck="false">真正稀缺的不是会调用 AI，而是知道什么值得做、什么算做好，以及把时间交还给谁。</blockquote>
+    </section>
+
+    <section class="section" id="actions">
+      <h2 spellcheck="false">可以做的 4 件事</h2>
+      <div class="action-grid">
+        <div class="action">
+          <b spellcheck="false">1</b>
+          <div><h3 spellcheck="false">选一个主力模型</h3><p spellcheck="false">把工作里最常见的 3 个任务交给同一个高质量模型跑一遍，用结果决定是否付费。</p></div>
+        </div>
+        <div class="action">
+          <b spellcheck="false">2</b>
+          <div><h3 spellcheck="false">列重复任务清单</h3><p spellcheck="false">写下每周重复出现的 5 件小事，从耗时最稳定、格式最固定的一件开始自动化。</p></div>
+        </div>
+        <div class="action">
+          <b spellcheck="false">3</b>
+          <div><h3 spellcheck="false">重写你的提示方式</h3><p spellcheck="false">把“帮我做”改成“背景、目标、限制、受众、格式、评价标准”六段式。</p></div>
+        </div>
+        <div class="action">
+          <b spellcheck="false">4</b>
+          <div><h3 spellcheck="false">发布一个小作品</h3><p spellcheck="false">用 AI 做一个能给别人看的东西。真实反馈会比模型夸奖更快提升判断力。</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="figures">
+      <div class="figure-grid">
+        <figure class="figure">
+          <img src="images/ddab8c91266b50b1/image-06.jpg" alt="人物访谈截图，字幕提到踏上取经路比抵达灵山更重要">
+          <figcaption class="caption" spellcheck="false">不要把准备当成进步。开始使用、开始创造、开始被反馈，才是真正进入路径。</figcaption>
+        </figure>
+        <figure class="figure">
+          <img src="images/ddab8c91266b50b1/image-03.png" alt="原文配图，辅助说明 AI 使用建议">
+          <figcaption class="caption" spellcheck="false">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;AI能帮的忙，比你想象的多得多。</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section" id="markdown-to-html">
+      <h2 spellcheck="false">怎么用 taste skills 和 html-anything 把 Markdown 做成 HTML</h2>
+      <p class="lead" spellcheck="false">我自己的建议是，别一上来就让模型“帮我美化一下”。这句话太空了。你要像带实习生一样，把文章类型、读者、叙述方式、设计约束和导出目标讲清楚。</p>
+      <div class="method-grid">
+        <article class="method-card">
+          <h3 spellcheck="false">第一步：先给 Markdown 定性</h3>
+          <ul>
+            <li spellcheck="false">它是长文、教程、复盘、报告，还是社媒卡片。</li>
+            <li spellcheck="false">读者是技术人、运营、老板，还是普通公众号读者。</li>
+            <li spellcheck="false">目标是发布、截图传播，还是做成可编辑网页。</li>
+          </ul>
+        </article>
+        <article class="method-card">
+          <h3 spellcheck="false">第二步：用 taste skill 定审美</h3>
+          <ul>
+            <li spellcheck="false">先声明 Design Read，比如中文长文、经验复盘、杂志化阅读。</li>
+            <li spellcheck="false">锁定主题、字体、颜色、圆角、移动端断点。</li>
+            <li spellcheck="false">最后跑 preflight：无占位、无错位、按钮对比度足够。</li>
+          </ul>
+        </article>
+        <article class="method-card">
+          <h3 spellcheck="false">第三步：用 html-anything 出形态</h3>
+          <ul>
+            <li spellcheck="false">打开 html-anything，粘贴 Markdown。</li>
+            <li spellcheck="false">模板选 article-magazine、blog-post 或 doc-kami-parchment。</li>
+            <li spellcheck="false">生成后导出 HTML、公众号粘贴格式或 PNG。</li>
+          </ul>
+        </article>
+      </div>
+      <pre class="code-sample" spellcheck="false">推荐提示词：
+请把下面 Markdown 转成单文件 HTML。
+Design Read：中文公众号长文，给 AI 学习者阅读，采用卡兹克式经验复盘叙述，结构参考 ofox 工程博客的 TL;DR、目录、模块和行动清单。
+使用 taste skill：锁定一个克制的 editorial 主题，移动端不能溢出，图片可编辑，正文不要全文堆砌。
+使用 html-anything：模板选 article-magazine 或 doc-kami-parchment，输出可直接保存和截图的 HTML。
+Markdown 内容：
+{{paste_markdown_here}}</pre>
+    </section>
+
+    <section class="section" id="source">
+      <div class="source-card">
+        <div>
+          <strong spellcheck="false">阅读原文</strong>
+          <p spellcheck="false">《用AI的这三年，想跟你分享这9条心得。》</p>
+        </div>
+        <a class="button" href="https://mp.weixin.qq.com/s/vTv0Vu4RgrMkmLbXGvnSug" target="_blank" rel="noopener noreferrer">打开原文</a>
+      </div>
+    </section>
+
+    <footer>
+      <div spellcheck="false">Source: https://mp.weixin.qq.com/s/vTv0Vu4RgrMkmLbXGvnSug</div>
+      <div spellcheck="false">Generated artifact path: E:\ai\product\catchit\artifacts\wechat-vTv0Vu4RgrMkmLbXGvnSug\index.html</div>
+    </footer>
+  </main>
+  <script>
+    (() => {
+      const body = document.body;
+      const page = document.querySelector(".page");
+      const editToggle = document.getElementById("editToggle");
+      const insertImage = document.getElementById("insertImage");
+      const deleteImage = document.getElementById("deleteImage");
+      const saveHtml = document.getElementById("saveHtml");
+      const downloadHtml = document.getElementById("downloadHtml");
+      const clearSaved = document.getElementById("clearSaved");
+      const editorStatus = document.getElementById("editorStatus");
+      const imagePicker = document.getElementById("imagePicker");
+      const storageKey = "wechat-vTv0Vu4RgrMkmLbXGvnSug:index-html:v3";
+      const draggableSelector = ".page > .hero, .page > .section, .insight, .action, .method-card, figure";
+      const editableSelector = [
+        ".brand",
+        ".masthead div:not(.brand)",
+        ".kicker",
+        "h1",
+        "h2",
+        "h3",
+        "p",
+        ".pill",
+        ".note strong",
+        ".note span",
+        ".stat b",
+        ".stat span",
+        ".action b",
+        ".caption",
+        ".pull",
+        ".source-card strong",
+        "footer div"
+      ].join(",");
+      let editing = false;
+      let selectedImage = null;
+      let insertionTarget = null;
+      let draggedItem = null;
+
+      const editableNodes = () => Array.from(page.querySelectorAll(editableSelector));
+      const draggableNodes = () => Array.from(page.querySelectorAll(draggableSelector));
+
+      const setStatus = (text) => {
+        editorStatus.textContent = text;
+      };
+
+      const restoreSavedPage = () => {
+        const saved = window.localStorage.getItem(storageKey);
+        if (!saved) return;
+        page.innerHTML = saved;
+        setStatus("已载入浏览器保存的修改");
+      };
+
+      const buildHtmlDocument = () => {
+        const wasEditing = editing;
+        setEditing(false);
+        const clone = document.documentElement.cloneNode(true);
+        clone.querySelectorAll(".is-selected").forEach((node) => node.classList.remove("is-selected"));
+        clone.querySelectorAll("[contenteditable]").forEach((node) => node.removeAttribute("contenteditable"));
+        const html = "<!doctype html>\n" + clone.outerHTML;
+        if (wasEditing) setEditing(true);
+        return html;
+      };
+
+      const clearDropMarks = () => {
+        draggableNodes().forEach((node) => node.classList.remove("drop-before", "drop-after"));
+      };
+
+      const setDragEnabled = (enabled) => {
+        draggableNodes().forEach((node) => {
+          node.draggable = false;
+          node.classList.toggle("drag-ready", enabled);
+          node.querySelectorAll(":scope > .drag-handle").forEach((handle) => handle.remove());
+          if (enabled) {
+            const handle = document.createElement("button");
+            handle.type = "button";
+            handle.className = "drag-handle";
+            handle.textContent = "拖动";
+            handle.draggable = true;
+            handle.contentEditable = "false";
+            handle.setAttribute("aria-label", "拖动组件");
+            node.insertAdjacentElement("afterbegin", handle);
+          }
+        });
+      };
+
+      const findDropTarget = (start) => {
+        let target = start.closest(draggableSelector);
+        while (target && draggedItem && target.parentNode !== draggedItem.parentNode) {
+          const parent = target.parentElement;
+          target = parent ? parent.closest(draggableSelector) : null;
+        }
+        return target;
+      };
+
+      const setEditing = (enabled) => {
+        editing = enabled;
+        body.classList.toggle("editor-on", enabled);
+        editToggle.classList.toggle("is-active", enabled);
+        editToggle.textContent = enabled ? "关闭文字编辑" : "开启文字编辑";
+        setDragEnabled(enabled);
+        editableNodes().forEach((node) => {
+          node.contentEditable = enabled ? "true" : "false";
+          node.spellcheck = false;
+        });
+        if (!enabled) {
+          clearSelectedImage();
+          clearDropMarks();
+        }
+      };
+
+      const clearSelectedImage = () => {
+        if (selectedImage) selectedImage.classList.remove("is-selected");
+        selectedImage = null;
+      };
+
+      const selectImage = (img) => {
+        clearSelectedImage();
+        selectedImage = img;
+        insertionTarget = img.closest("figure, .hero-card, .figure") || img;
+        selectedImage.classList.add("is-selected");
+      };
+
+      const makeFigure = (src, fileName) => {
+        const figure = document.createElement("figure");
+        figure.className = "figure";
+        const img = document.createElement("img");
+        img.src = src;
+        img.alt = fileName ? `本地图片：${fileName}` : "本地插入图片";
+        const caption = document.createElement("figcaption");
+        caption.className = "caption";
+        caption.textContent = fileName || "本地插入图片";
+        if (editing) caption.contentEditable = "true";
+        figure.append(img, caption);
+        return figure;
+      };
+
+      restoreSavedPage();
+
+      page.addEventListener("input", () => {
+        setStatus("有未保存修改");
+      });
+
+      page.addEventListener("click", (event) => {
+        const img = event.target.closest("img");
+        if (editing && img && page.contains(img)) {
+          event.preventDefault();
+          selectImage(img);
+          return;
+        }
+        const target = event.target.closest(".section, .hero, figure, article, .action, .note, .source-card");
+        if (target && page.contains(target)) insertionTarget = target;
+        if (!img) clearSelectedImage();
+      });
+
+      page.addEventListener("dragstart", (event) => {
+        if (!editing) return;
+        const handle = event.target.closest(".drag-handle");
+        if (!handle) {
+          event.preventDefault();
+          return;
+        }
+        const item = handle.closest(draggableSelector);
+        if (!item || !page.contains(item)) return;
+        draggedItem = item;
+        draggedItem.classList.add("dragging");
+        event.dataTransfer.effectAllowed = "move";
+        event.dataTransfer.setData("text/plain", "move-component");
+      });
+
+      page.addEventListener("dragover", (event) => {
+        if (!editing || !draggedItem) return;
+        const target = findDropTarget(event.target);
+        if (!target || target === draggedItem || target.contains(draggedItem)) return;
+        if (target.parentNode !== draggedItem.parentNode) return;
+        event.preventDefault();
+        clearDropMarks();
+        const rect = target.getBoundingClientRect();
+        const after = event.clientY > rect.top + rect.height / 2;
+        target.classList.add(after ? "drop-after" : "drop-before");
+      });
+
+      page.addEventListener("drop", (event) => {
+        if (!editing || !draggedItem) return;
+        const target = findDropTarget(event.target);
+        if (!target || target === draggedItem || target.parentNode !== draggedItem.parentNode) return;
+        event.preventDefault();
+        const rect = target.getBoundingClientRect();
+        const after = event.clientY > rect.top + rect.height / 2;
+        target.insertAdjacentElement(after ? "afterend" : "beforebegin", draggedItem);
+        setStatus("有未保存修改");
+        clearDropMarks();
+      });
+
+      page.addEventListener("dragend", () => {
+        if (draggedItem) draggedItem.classList.remove("dragging");
+        draggedItem = null;
+        clearDropMarks();
+      });
+
+      editToggle.addEventListener("click", () => setEditing(!editing));
+
+      insertImage.addEventListener("click", () => {
+        if (!editing) setEditing(true);
+        imagePicker.click();
+      });
+
+      imagePicker.addEventListener("change", () => {
+        const file = imagePicker.files && imagePicker.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+          const figure = makeFigure(reader.result, file.name);
+          const anchor = selectedImage
+            ? selectedImage.closest("figure, .hero-card, .figure")
+            : insertionTarget;
+          if (anchor && anchor.parentNode) {
+            anchor.insertAdjacentElement("afterend", figure);
+          } else {
+            page.appendChild(figure);
+          }
+          insertionTarget = figure;
+          clearSelectedImage();
+          imagePicker.value = "";
+          setStatus("有未保存修改");
+        };
+        reader.readAsDataURL(file);
+      });
+
+      deleteImage.addEventListener("click", () => {
+        if (!selectedImage) {
+          window.alert("请先在编辑模式下点击要删除的图片。");
+          return;
+        }
+        const removable = selectedImage.closest("figure") || selectedImage;
+        const parent = removable.parentNode;
+        clearSelectedImage();
+        parent.removeChild(removable);
+        setStatus("有未保存修改");
+      });
+
+      saveHtml.addEventListener("click", () => {
+        const wasEditing = editing;
+        setEditing(false);
+        window.localStorage.setItem(storageKey, page.innerHTML);
+        if (wasEditing) setEditing(true);
+        setStatus("已保存到浏览器缓存");
+      });
+
+      clearSaved.addEventListener("click", () => {
+        window.localStorage.removeItem(storageKey);
+        setStatus("已清除浏览器保存");
+      });
+
+      downloadHtml.addEventListener("click", () => {
+        const html = buildHtmlDocument();
+        const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = "index-edited.html";
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        URL.revokeObjectURL(url);
+        setStatus("已下载当前 HTML");
+      });
+    })();
+  </script>
+
+
+</body></html>
